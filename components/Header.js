@@ -1,24 +1,61 @@
 import React from 'react';
 import styled from "@emotion/styled";
+import Link from "next/link";
+import styles from '../styles/Home.module.css'
 
 const Encabezado = styled.header`
-    padding: 40px 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
     img{
+        cursor: pointer;
         width: 268px;
-        margin-bottom: 8rem;
+        justify-content: center;
     }
+    nav{
+        display: flex;
+        flex-direction: column;
+    }
+    @media (min-width: 768px){
+        flex-direction: row;
+        justify-content: space-between;
+        nav{
+            flex-direction: row;
+        }
+    }
+`;
 
-    @media (min-width: 768px) {
-        justify-content: flex-start;
+const NavLink = styled.a`
+    color: white;
+    padding: 10px;
+    background-color: #E5514E;
+    margin-right: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor:pointer;
+
+    @media (max-width: 768px){
+        width:120px;
+        margin-bottom: 10px;
     }
 `;
 
 const Header = () => {
     return ( 
         <Encabezado>
-            <img src="logo.svg"/>
+            <Link href="/">
+                <img src="logo.svg"/>
+            </Link>
+
+            <nav className="">
+                <Link href="/login">
+                    <NavLink>Iniciar Sesion</NavLink>
+                </Link>
+                <Link href="/crearcuenta">
+                    <NavLink className={styles.crear}>Crear Cuenta</NavLink>
+                </Link>
+            </nav>
         </Encabezado>
      );
 }
