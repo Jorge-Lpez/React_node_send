@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Layout from "../components/layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import authContext from "../context/auth/authContext";
+import Alerta from "../components/alerta";
+import { useRouter } from "next/router"
 
 const Login = () => {
+
+    const AuthContext = useContext(authContext);
+    const { mensaje, autenticado, iniciarSesion } =  AuthContext;
+    const router = useRouter();
+    
+    useEffect(() => {
+        if(autenticado){
+            router.push("/");
+        }
+    }, [autenticado])
+
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -14,7 +28,7 @@ const Login = () => {
             password: Yup.string().required("El password no puede ir vacio")
         }),
         onSubmit: valores => {
-            console.log(valores);
+            iniciarSesion(valores);
         },
     });
     return ( 
@@ -22,6 +36,7 @@ const Login = () => {
             <Layout>
             <div className="">
                 <h2 className="">Iniciar Sesion</h2>
+                {mensaje ? <Alerta/> : null}
                 <div className="formulario">
                         <form
                             onSubmit={formik.handleSubmit}

@@ -4,14 +4,16 @@ import authReducer from "./authReducer";
 import { REGISTRO_ERROR, 
         REGISTRO_EXITOSO, 
         USUARIO_AUTENTICADO,
-        LIMPIAR_ERROR } from "../../type";
+        LIMPIAR_ERROR,
+        LOGIN_EXITOSO,
+        LOGIN_ERROR} from "../../type";
 import clienteAxios from "../../config/axios";
 
 const AuthState = ({children}) => {
    
     //Definir un state inicial
     const initialState = {
-        toke: "",
+        toke: typeof window !== "undefined" ? localStorage.getItem("token") : "",
         autenticado: null,
         usuario: null,
         mensaje: null
@@ -46,12 +48,33 @@ const AuthState = ({children}) => {
         //console.log(datos);
         //dispatch();
     }
-    //Usuario autenticado 
-    const usuarioAutenticado = nombre => {
-        dispatch({
-            type: USUARIO_AUTENTICADO,
-            payload: nombre   
-        });
+
+    //Autentica Usuarios
+    const iniciarSesion = async datos => {
+        try {
+            const respuesta = await clienteAxios.post("/api/auth", datos);
+            console.log(respuesta.data.token);
+            dispatch({
+                type: LOGIN_EXITOSO,
+                payload: respuesta.data.token
+            });
+        } catch (error) {
+            console.log(error);
+            dispatch({
+                type: LOGIN_ERROR,
+                payload: error.response.data.msg
+            });
+        }
+        setTimeout(() => {
+            dispatch({
+                type: LIMPIAR_ERROR
+            });
+        }, 3000);
+    }
+
+    //Retornar el usuario autenticado en base al JWT
+    const usuarioAutenticado = async () => {
+        console.log("Revisando...");
     }
 
     return ( 
@@ -62,7 +85,8 @@ const AuthState = ({children}) => {
                 usuario: state.usuario,
                 mensaje: state.mensaje,
                 registrarUsuario,
-                usuarioAutenticado
+                usuarioAutenticado,
+                iniciarSesion
              }}
         >
             {children}
