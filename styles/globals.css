@@ -41,13 +41,71 @@ a {
 h2{
   margin-top: 40px;
   text-align: center;
+  font-weight: bold;
+  font-size: 2.5rem;
 }
 
-input{
+form div input{
+  /*-webkit-appearance: none !important;*/
+  border: 2px solid #E5E6E7;
   padding: 8px;
+  box-shadow: 2px 2px 2px #E5E6E7;
   margin-bottom: 10px;
+}
+i
+form div input:focus{
+  border-color: #5EACFA;
 }
 
 .formulario form div label{
+  font-weight: bold;
   padding-bottom: 8px;
+}
+
+.boton{
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color:#E5514E;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: medium;
+  color: white;
+}
+
+.boton:hover{
+  background-color: black;
+}
+
+/*Error en formularios*/
+
+.error{
+  background-color: #E2E6E8;
+  padding: 20px 0 20px 20px;
+  border-left: 4px solid red;
+  color: red;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.error p{
+  margin: 0;
+}
+
+/*Mensaje usuario creado correctamente*/
+.correcto{
+  background-color: #FB8484;
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 4px 0 4px 0;
+  font-weight: bold;
+  width: 500px;
+  margin: 0 auto 20px auto;
+}
+
+.correcto p{
+  margin: 0;
 }
