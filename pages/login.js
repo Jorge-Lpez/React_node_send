@@ -16,7 +16,7 @@ const Login = () => {
         if(autenticado){
             router.push("/");
         }
-    }, [autenticado])
+    }, [autenticado]);
 
     const formik = useFormik({
         initialValues: {

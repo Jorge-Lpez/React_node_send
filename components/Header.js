@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from "@emotion/styled";
 import Link from "next/link";
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
+//import authContext from "../context/auth/authContext";
 
 const Encabezado = styled.header`
     display: flex;
@@ -42,6 +43,10 @@ const NavLink = styled.a`
 `;
 
 const Header = () => {
+
+   // const AuthContext = useContext(authContext);
+    //const { autenticado } = AuthContext;
+
     return ( 
         <Encabezado>
             <Link href="/">
@@ -49,9 +54,11 @@ const Header = () => {
             </Link>
 
             <nav className="">
+                
                 <Link href="/login">
                     <NavLink>Iniciar Sesion</NavLink>
                 </Link>
+                
                 <Link href="/crearcuenta">
                     <NavLink className={styles.crear}>Crear Cuenta</NavLink>
                 </Link>

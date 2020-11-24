@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import authContext from "./authContext";
 import authReducer from "./authReducer";
+//import { useRouter } from "next/router"
 import { REGISTRO_ERROR, 
         REGISTRO_EXITOSO, 
         USUARIO_AUTENTICADO,
@@ -72,10 +73,11 @@ const AuthState = ({children}) => {
         }, 3000);
     }
 
+    
     //Retornar el usuario autenticado en base al JWT
     const usuarioAutenticado = async () => {
         console.log("Revisando...");
-    }
+    }   
 
     return ( 
         <authContext.Provider

@@ -1,7 +1,7 @@
 //import styles from '../styles/Home.module.css'
+import React, { useContext, useEffect} from 'react';
 import Layout from "../components/layout";
 import authContext from "../context/auth/authContext";
-import React, { useContext } from 'react';
 
 export default function Home() {
   
