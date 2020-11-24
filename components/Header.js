@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from "@emotion/styled";
 import Link from "next/link";
 import styles from '../styles/Home.module.css';
-//import authContext from "../context/auth/authContext";
+import authContext from "../context/auth/authContext";
 
 const Encabezado = styled.header`
     display: flex;
@@ -42,10 +42,33 @@ const NavLink = styled.a`
     }
 `;
 
+const CerrarCuenta = styled.div`
+    display: flex;
+    @media (max-width: 768px){
+        margin-top: 10px;
+    }
+    button{
+        background-color: black;
+        color: white;
+        border: none;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    button:hover{
+        background-color: #E5514E;
+    }
+
+    p{
+        font-weight: bold;
+        margin-right: 20px;
+    }
+`;
+
 const Header = () => {
 
-   // const AuthContext = useContext(authContext);
-    //const { autenticado } = AuthContext;
+    const AuthContext = useContext(authContext);
+    const { usuario, cerrarSesion } = AuthContext;
 
     return ( 
         <Encabezado>
@@ -54,14 +77,28 @@ const Header = () => {
             </Link>
 
             <nav className="">
-                
-                <Link href="/login">
-                    <NavLink>Iniciar Sesion</NavLink>
-                </Link>
-                
-                <Link href="/crearcuenta">
-                    <NavLink className={styles.crear}>Crear Cuenta</NavLink>
-                </Link>
+                {usuario ?
+                    (<CerrarCuenta>
+                        <p>Hola: {usuario.nombre}</p>
+                        <button
+                            type="button"
+                            className="hola"
+                            onClick={() => cerrarSesion()}
+                        >
+                            Cerrar Sesion
+                        </button>
+                    </CerrarCuenta>)
+                :
+                    (<>
+                        <Link href="/login">
+                            <NavLink>Iniciar Sesion</NavLink>
+                        </Link>
+                        
+                        <Link href="/crearcuenta">
+                            <NavLink className={styles.crear}>Crear Cuenta</NavLink>
+                        </Link>
+                    </>)
+                }
             </nav>
         </Encabezado>
      );

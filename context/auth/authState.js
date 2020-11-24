@@ -1,12 +1,14 @@
 import React, { useReducer } from 'react';
 import authContext from "./authContext";
 import authReducer from "./authReducer";
+import tokenAuth from "../../config/tokenAuth";
 //import { useRouter } from "next/router"
 import { REGISTRO_ERROR, 
         REGISTRO_EXITOSO, 
         USUARIO_AUTENTICADO,
         LIMPIAR_ERROR,
         LOGIN_EXITOSO,
+        CERRAR_SESION,
         LOGIN_ERROR} from "../../type";
 import clienteAxios from "../../config/axios";
 
@@ -14,7 +16,7 @@ const AuthState = ({children}) => {
    
     //Definir un state inicial
     const initialState = {
-        toke: typeof window !== "undefined" ? localStorage.getItem("token") : "",
+        token: typeof window !== "undefined" ? localStorage.getItem("token") : "",
         autenticado: null,
         usuario: null,
         mensaje: null
@@ -54,7 +56,7 @@ const AuthState = ({children}) => {
     const iniciarSesion = async datos => {
         try {
             const respuesta = await clienteAxios.post("/api/auth", datos);
-            console.log(respuesta.data.token);
+            //console.log(respuesta.data.token);
             dispatch({
                 type: LOGIN_EXITOSO,
                 payload: respuesta.data.token
@@ -76,19 +78,44 @@ const AuthState = ({children}) => {
     
     //Retornar el usuario autenticado en base al JWT
     const usuarioAutenticado = async () => {
-        console.log("Revisando...");
+        const token = localStorage.getItem("token");
+        console.log(token + " si hay");
+        if(token){
+            tokenAuth(token);
+        }else{
+            tokenAuth();
+        }
+
+        try {
+            const respuesta = await clienteAxios.get("/api/auth");
+            console.log(respuesta.data.usuario);    
+            dispatch({
+                type: USUARIO_AUTENTICADO,
+                payload: respuesta.data.usuario
+            });  
+        } catch (error) {
+            console.log(error);
+        }
     }   
+    
+    //Cerrar la sesion 
+    const cerrarSesion = () => {
+        dispatch({
+            type: CERRAR_SESION
+        });
+    }
 
     return ( 
         <authContext.Provider
             value={{
-                toke: state.toke,
+                token: state.token,
                 autenticado: state.autenticado,
                 usuario: state.usuario,
                 mensaje: state.mensaje,
                 registrarUsuario,
                 usuarioAutenticado,
-                iniciarSesion
+                iniciarSesion,
+                cerrarSesion
              }}
         >
             {children}

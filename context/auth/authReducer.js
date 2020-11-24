@@ -3,7 +3,8 @@ import {REGISTRO_EXITOSO,
         USUARIO_AUTENTICADO,
         LIMPIAR_ERROR,
         LOGIN_EXITOSO,
-        LOGIN_ERROR} from "../../type";
+        LOGIN_ERROR,
+        CERRAR_SESION} from "../../type";
 
 
 export default (state, action) => {
@@ -26,6 +27,19 @@ export default (state, action) => {
                 ...state,
                 token: action.payload,
                 autenticado: true
+            }
+        case USUARIO_AUTENTICADO:
+            return{
+                ...state,
+                usuario: action.payload
+            }
+        case CERRAR_SESION:
+            localStorage.removeItem("token");
+            return{
+                ...state,
+                usuario: null,
+                token: null,
+                autenticado: null
             }
         default:
             return state;
