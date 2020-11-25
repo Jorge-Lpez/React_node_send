@@ -1,18 +1,21 @@
-import React, { useState, useCallback } from 'react';
+import React, {useCallback, useContext } from 'react';
 import  { useDropzone } from "react-dropzone";
-import clienteAxios from "../config/axios";
+import Spinner from "./spinner";
 import styled from "@emotion/styled";
+import appContext from '../context/app/appContext';
 
 const Archivos = styled.div`
     height: 100%;
-    width: 100%;
-    display: flex;
-    align-items:center;
-    text-align: center;
     input{
         height: 100%;
     }
     div{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
         button{
         background-color: #4C44F1;
         border: none;
@@ -22,61 +25,134 @@ const Archivos = styled.div`
         color: white;
         font-weight: bold;
         font-size: 1rem;
-        :hover{
-            background-color: #635CF3;
-        }
+            :hover{
+                background-color: #635CF3;
+            }
         }
     }
 
     p{
         font-size: 1.6rem;
     }
+`;
 
-    .soltar{
-        margin-left: 25%;
+const Lista = styled.ul`
+    border: 1px solid red;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    li{
+        list-style: none;
+        background-color: white;
+        border: 2px solid white;
+        box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+        margin: 0 20px 0 20px;
+        p{
+            text-align: center;
+            font-size: 16px;
+        }
+        .mega{
+            font-size: 0.8rem;
+        }
     }
+    h2{
+        margin: 0;
+    }
+    button{
+        background-color: #4C44F1;
+        border: none;
+        padding: 10px;
+        width: 80%;
+        border-radius: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 1rem;
+        margin: 20px 20px 0 40px;
+            :hover{
+                background-color: #635CF3;
+            }
+        }
 `;
 
 const Dropzone = () => {
 
-    const onDrop = useCallback(async (acceptedFiles) => {
-        console.log(acceptedFiles);
+    //LLamando funciones y state del context 
+    const AppContext = useContext(appContext);
+    const {cargando, ErrorLimite, SubiendoArchivos, crearEnlace } = AppContext;
 
+    const onDropRejected = () => {
+        ErrorLimite("No se puedo subir, Sobrepasa el limite para subir archivos grandes crea una cuenta");
+    }
+
+    const onDropAccepted= useCallback(async (acceptedFiles) => {
+        //console.log(acceptedFiles);
         //Crear un form Data
         const formData = new FormData();
         formData.append("archivo", acceptedFiles[0]);
 
-        const resultado = await clienteAxios.post("/api/archivos", formData);
-        console.log(resultado.data);
-
+        SubiendoArchivos(formData, acceptedFiles[0].path);
     }, []);
-    const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({onDrop});
+    // onDrop {Acepta todos los archivos aunque al aceptarlo tenga fallas por ecceder el tamaño o el formato}
+    // onDropAccepted {Acepta los archivos que son aceptados por la configuracion y el backend}
+    // onDropRejected {aqui caen los archivos que no sean aceptados}
+    const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({onDropAccepted, onDropRejected, maxSize: 1000000});
 
-    console.log(acceptedFiles.lastModifiedDate);
+    const archivos = acceptedFiles.map(archivo => (
+        <li key={archivo.lastModified}>
+            <p>{archivo.path}</p>
+            <p className="mega">{(archivo.size / Math.pow(1024,2)).toFixed(2)} MB</p>
+        </li>
+    ));
 
 
-    return ( 
+    return (
+    <>
         <div className="dropzonep">
               <Archivos { ...getRootProps({ className: "dropzone"})}>
+                  { acceptedFiles.length > 0 ?
 
-                  <input
+                    <Lista>
+                        <h2>Archivos</h2>
+                        {archivos}
+                        {cargando ? 
+                            <Spinner/>
+                        :
+                            <button
+                                type="button"
+                                onClick={() => crearEnlace()}
+                            >
+                                Crear Enlace
+                            </button>
+                        }
+                    </Lista>
+                  :
+                  <>
+                    <input
                     { ...getInputProps() }
-                  />
-                  {
-                      isDragActive ? 
-                        <p className="soltar">Suelta el Archivo</p>
-                      :
-                      <div>
-                          <p>Selecciona un archivo y arrastralo aqui</p>
-                          <button
-                            type="button"
-                          >
-                              Selecciona archivos para subir
-                          </button>
-                      </div>
-                  }
+                        />
+                        {
+                            isDragActive ? 
+                            <div>
+                                <p className="soltar">Suelta el Archivo</p>
+                            </div>
+                            :
+                            <div>
+                                <p>Selecciona un archivo y arrastralo aqui</p>
+                                <button
+                                type="button"
+                                >
+                                    Selecciona archivos para subir
+                                </button>
+                            </div>
+                    }
+                </>
+                }
               </Archivos>
         </div>
+    </>
      );
 }
  

@@ -79,7 +79,7 @@ const AuthState = ({children}) => {
     //Retornar el usuario autenticado en base al JWT
     const usuarioAutenticado = async () => {
         const token = localStorage.getItem("token");
-        console.log(token + " si hay");
+        //console.log(token + " si hay");
         if(token){
             tokenAuth(token);
         }else{
@@ -88,7 +88,7 @@ const AuthState = ({children}) => {
 
         try {
             const respuesta = await clienteAxios.get("/api/auth");
-            console.log(respuesta.data.usuario);    
+            //console.log(respuesta.data.usuario);    
             dispatch({
                 type: USUARIO_AUTENTICADO,
                 payload: respuesta.data.usuario
