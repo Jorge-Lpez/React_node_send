@@ -4,9 +4,11 @@ import Layout from "../components/layout";
 import authContext from "../context/auth/authContext";
 import Link from "next/link";
 import styled from "@emotion/styled";
+import Dropzone from "../components/Dropzone";
 
 const ContenedorCuerpo = styled.div`
     max-width:800px;
+    //height: 80vh;
     margin: 0 auto;
     border: 1px solid white;
     border-radius: 10px;
@@ -17,8 +19,21 @@ const ContenedorCuerpo = styled.div`
 
     .contenedor-flex{
       display: flex;
-      .dropzone{
+      @media (max-width: 488px){
+        flex-direction: column;
+        .dropzonep{
+          display: flex;
+          height: 400px;
+        }
+      }
+      .dropzonep{
         flex: 1;
+        background-color: #E9E9EE;
+        border: 2px dashed #B6B6B9;
+        margin: 0 10px 0 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .cuerpo{
         flex: 1;
@@ -59,10 +74,7 @@ export default function Home() {
     <Layout>
         <ContenedorCuerpo>
           <div className="contenedor-flex">
-            <div className="dropzone">
-              <p>Dropzone aqui</p>
-            </div>
-
+            <Dropzone/>
             <div className="cuerpo">
               <h2>Compartir archivos de forma sencilla y privada</h2>
               <p><span>ReactNodeSend</span> Te permite compartir archivos de forma sencilla y eficaz,
