@@ -147,7 +147,7 @@ const Dropzone = () => {
                                     Selecciona archivos para subir
                                 </button>
                             </div>
-                    }
+                        }
                 </>
                 }
               </Archivos>
