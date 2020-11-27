@@ -73,7 +73,7 @@ const Header = () => {
     return ( 
         <Encabezado>
             <Link href="/">
-                <img src="logo.svg"/>
+                <img src="/logo.svg"/>
             </Link>
 
             <nav className="">
