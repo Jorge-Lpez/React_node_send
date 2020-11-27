@@ -5,7 +5,10 @@ import {
     CREAR_ENLACE_EXITO,
     CREAR_ENLACE_ERROR, 
     MOSTRAR_ALERTA,
-    SUBIR_ARCHIVO} from "../../type";
+    SUBIR_ARCHIVO,
+    LIMPIAR_STATE,
+    OBTENER_PASSWORD,
+    OBTENER_DESCARGAS} from "../../type";
 
 export default (state, action) => {
     switch (action.type) {
@@ -41,6 +44,28 @@ export default (state, action) => {
             return{
                 ...state,
                 url: action.payload
+            }
+        case LIMPIAR_STATE:
+            return{
+                ...state,
+                mensaje_archivo: "",
+                nombre: "",
+                nombre_original: "",
+                cargando: null,
+                descargas: 1,
+                password: "",
+                autor: null,
+                url: ""
+            }
+        case OBTENER_PASSWORD:
+            return{
+                ...state,
+                password: action.payload
+            }
+        case OBTENER_DESCARGAS:
+            return{
+                ...state,
+                descargas: action.payload
             }
         default:
             return state;

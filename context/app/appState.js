@@ -9,7 +9,10 @@ import {
     CREAR_ENLACE_EXITO,
     CREAR_ENLACE_ERROR, 
     MOSTRAR_ALERTA,
-    SUBIR_ARCHIVO} from "../../type";
+    SUBIR_ARCHIVO,
+    LIMPIAR_STATE,
+    OBTENER_PASSWORD,
+    OBTENER_DESCARGAS} from "../../type";
 
 const AppState = ( { children } ) => {
 
@@ -85,6 +88,30 @@ const AppState = ( { children } ) => {
             console.log(error);
         } 
     }
+
+    //Limpiar state 
+    const limpiarState = () => {
+        dispatch({
+            type: LIMPIAR_STATE
+        });
+    }
+
+    //Obtener contraseña  
+    const passwordEnlace = (password) => {
+        dispatch({
+            type: OBTENER_PASSWORD,
+            payload: password
+        });
+    }
+
+    // obtener numero de descargas
+    const descargaEnlace = (descargas) => {
+        dispatch({
+            type: OBTENER_DESCARGAS,
+            payload: descargas
+        });
+    }
+
     return (
         <appContext.Provider
             value={{
@@ -98,7 +125,10 @@ const AppState = ( { children } ) => {
                 url: state.url,
                 ErrorLimite,
                 SubiendoArchivos,
-                crearEnlace
+                crearEnlace,
+                limpiarState,
+                passwordEnlace,
+                descargaEnlace
             }}
         >
             {children}

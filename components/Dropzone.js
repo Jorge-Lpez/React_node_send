@@ -3,6 +3,8 @@ import  { useDropzone } from "react-dropzone";
 import Spinner from "./spinner";
 import styled from "@emotion/styled";
 import appContext from '../context/app/appContext';
+import authContext from '../context/auth/authContext';
+import Formulario from "./formulario";
 
 const Archivos = styled.div`
     height: 100%;
@@ -70,7 +72,7 @@ const Lista = styled.ul`
         color: white;
         font-weight: bold;
         font-size: 1rem;
-        margin: 20px 20px 0 40px;
+        margin: 20px 20px 20px 40px;
             :hover{
                 background-color: #635CF3;
             }
@@ -83,12 +85,17 @@ const Dropzone = () => {
     const AppContext = useContext(appContext);
     const {cargando, ErrorLimite, SubiendoArchivos, crearEnlace } = AppContext;
 
+    //LLamando funciones y state del context 
+    const AuthContext = useContext(authContext);
+    const { usuario, autenticado } = AuthContext;
+    console.log(autenticado + " no me jodan");
+
     const onDropRejected = () => {
         ErrorLimite("No se puedo subir, Sobrepasa el limite para subir archivos grandes crea una cuenta");
     }
 
     const onDropAccepted= useCallback(async (acceptedFiles) => {
-        //console.log(acceptedFiles);
+        console.log(acceptedFiles);
         //Crear un form Data
         const formData = new FormData();
         formData.append("archivo", acceptedFiles[0]);
@@ -117,6 +124,11 @@ const Dropzone = () => {
                     <Lista>
                         <h2>Archivos</h2>
                         {archivos}
+                        {
+                            autenticado ? 
+                            <Formulario/> 
+                            : ""
+                        }
                         {cargando ? 
                             <Spinner/>
                         :

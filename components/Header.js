@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import styles from '../styles/Home.module.css';
 import authContext from "../context/auth/authContext";
-
+import appContext from "../context/app/appContext";
+import { useRouter } from "next/router";
 const Encabezado = styled.header`
     display: flex;
     flex-direction: column;
@@ -70,11 +71,21 @@ const Header = () => {
     const AuthContext = useContext(authContext);
     const { usuario, cerrarSesion } = AuthContext;
 
+    const AppContext = useContext(appContext);
+    const {  limpiarState } = AppContext;
+
+    const router = useRouter();
+    const direccionar = () => {
+        limpiarState();
+        router.push("/");
+    }
+
     return ( 
         <Encabezado>
-            <Link href="/">
-                <img src="/logo.svg"/>
-            </Link>
+            <img 
+                src="/logo.svg"
+                onClick={ () => direccionar()}
+            />   
 
             <nav className="">
                 {usuario ?

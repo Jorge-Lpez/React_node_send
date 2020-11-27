@@ -23,3 +23,10 @@ export const SUBIR_ARCHIVO_ERROR = "SUBIR_ARCHIVO_ERROR";
 //Crear Enlaces 
 export const CREAR_ENLACE_EXITO = "CREAR_ENLACE_EXITO";
 export const CREAR_ENLACE_ERROR = "CREAR_ENLACE_ERROR";     
+
+//Crear o reiniciar el state principal
+export const LIMPIAR_STATE = "LIMPIAR_STATE"
+
+//Password and descargas en el enlace
+export const OBTENER_PASSWORD = "OBTENER_PASSWORD";
+export const OBTENER_DESCARGAS= "OBTENER_DESCARGAS";

@@ -18,7 +18,7 @@ export async function getStaticPaths(){
             paths: enlaces.data.enlaces.map( enlace => ({
                 params: { enlace : enlace.url }
             })),
-            fallback: false
+            fallback: false 
         }
 }
 
@@ -29,7 +29,15 @@ export default ({enlace}) => {
 
     return ( 
         <Layout>
-            <h1>Dinamicos</h1>
+            <h1>Descargar tu archivo: </h1>
+            <div>
+                <a
+                    href={`${process.env.backendURL}/api/archivos/${enlace.archivo}`}
+                    
+                >
+                    Aquí
+                </a>
+            </div>
         </Layout>
      );
 
