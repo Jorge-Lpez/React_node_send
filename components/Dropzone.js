@@ -88,14 +88,14 @@ const Dropzone = () => {
     //LLamando funciones y state del context 
     const AuthContext = useContext(authContext);
     const { usuario, autenticado } = AuthContext;
-    console.log(autenticado + " no me jodan");
+    //console.log(autenticado + " no me jodan");
 
     const onDropRejected = () => {
         ErrorLimite("No se puedo subir, Sobrepasa el limite para subir archivos grandes crea una cuenta");
     }
 
     const onDropAccepted= useCallback(async (acceptedFiles) => {
-        console.log(acceptedFiles);
+        //console.log(acceptedFiles);
         //Crear un form Data
         const formData = new FormData();
         formData.append("archivo", acceptedFiles[0]);

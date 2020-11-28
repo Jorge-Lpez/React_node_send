@@ -69,7 +69,7 @@ const CerrarCuenta = styled.div`
 const Header = () => {
 
     const AuthContext = useContext(authContext);
-    const { usuario, cerrarSesion } = AuthContext;
+    const { usuario, usuarioAutenticado, cerrarSesion } = AuthContext;
 
     const AppContext = useContext(appContext);
     const {  limpiarState } = AppContext;
@@ -79,6 +79,13 @@ const Header = () => {
         limpiarState();
         router.push("/");
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if(token){
+          usuarioAutenticado();
+        }
+      }, []);
 
     return ( 
         <Encabezado>
