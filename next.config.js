@@ -1,7 +1,7 @@
 module.exports = {
     env: {
-        backendURL: "https://enigmatic-everglades-41199.herokuapp.com/",
-        frontendURL: "https://firesend.vercel.app/"
+        backendURL: "https://enigmatic-everglades-41199.herokuapp.com",
+        frontendURL: "https://firecsendclone-rbrpt6o6n.vercel.app"
     },
     async headers() {
         return [
@@ -34,4 +34,4 @@ module.exports = {
         }
       ]
     }
-  };
+  };*/
