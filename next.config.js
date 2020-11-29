@@ -1,7 +1,7 @@
 module.exports = {
     env: {
         backendURL: "https://enigmatic-everglades-41199.herokuapp.com",
-        frontendURL: "https://ecstatic-tesla-5029c7.netlify.app"
+        frontendURL: "https://firesend-interface.vercel.app"
     },
     async headers() {
         return [
